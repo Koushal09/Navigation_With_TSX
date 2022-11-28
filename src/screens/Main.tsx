@@ -8,6 +8,8 @@ import { RootStackParamList } from './RootStackParams';
 import HomeScreen from './Home';
 import DetailsScreen from './Details';
 import {MainBottomTabParamList} from './MainBottomTabParams';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
@@ -15,7 +17,26 @@ const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 const MainScreen = () => {
     // const navigation = useNavigation<mainScreenProp>();
     return (
-        <BottomTab.Navigator>
+        <BottomTab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'alert-circle'
+                : 'alert-circle-outline';
+            } else if (route.name === 'Details') {
+              iconName = focused ? 'apps' : 'apps-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+        >
       <BottomTab.Screen name="Home" component={HomeScreen} options={{
           title: 'Home',
           headerTitleAlign: "center",
@@ -27,6 +48,8 @@ const MainScreen = () => {
             fontWeight: 'bold',
             
           },
+          
+          
         }}/>
       <BottomTab.Screen name="Details" component={DetailsScreen} 
       options={{
